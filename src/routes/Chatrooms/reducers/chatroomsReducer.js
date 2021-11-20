@@ -2,7 +2,9 @@ import axios from 'axios'
 
 const initialState = {
     chatrooms: [],
-    fetchingChatrooms: true,
+    chatroom: null,
+    loadingChatrooms: true,
+    loadingChatroom: true,
     errorMessage: ""
 }
 
@@ -14,10 +16,20 @@ export function chatroomsReducer(state = initialState, action) {
                 ...state,
                 chatrooms: action.payload
             }
-        case "TOGGLE_FETCHING_CHATROOMS":
+        case "SET_CHATROOM":
             return {
                 ...state,
-                fetchingChatrooms: action.payload
+                chatroom: action.payload
+            }
+        case "TOGGLE_LOADING_CHATROOMS":
+            return {
+                ...state,
+                loadingChatrooms: action.payload
+            }
+        case "TOGGLE_LOADING_CHATROOM":
+            return {
+                ...state,
+                loadingChatroom: action.payload
             }
         case "SET_CHATROOMS_ERROR_MESSAGE":
             return {
@@ -32,17 +44,19 @@ export function chatroomsReducer(state = initialState, action) {
 }
 
 // ************************ ACTIONS ************************
-export const toggleFetchingChatrooms = (fetching) => {
-    return { type: "TOGGLE_FETCHING_CHATROOMS", payload: fetching }
+export const toggleLoadingChatrooms = (fetching) => {
+    return { type: "TOGGLE_LOADING_CHATROOMS", payload: fetching }
+}
+export const toggleLoadingChatroom = (fetching) => {
+    return { type: "TOGGLE_LOADING_CHATROOM", payload: fetching }
 }
 
 /**
  * @summary - Getch all chatrooms.
- * @param navigate - useNavigate instance variable [react-router-dom].
  */
-export const getChatrooms = (navigate) => {
+export const getChatrooms = () => {
     return dispatch => {
-        dispatch(toggleFetchingChatrooms(true))
+        dispatch(toggleLoadingChatrooms(true))
 
         axios.get(`${ process.env.REACT_APP_API }chatrooms/`, {
             headers: { "Authorization": `Bearer ${ localStorage.getItem("token") }` }
@@ -52,7 +66,28 @@ export const getChatrooms = (navigate) => {
         }).catch(error => {
             console.log(error.response)
         }).finally(() => {
-            dispatch(toggleFetchingChatrooms(false))
+            dispatch(toggleLoadingChatrooms(false))
+        })
+    }
+}
+
+/**
+ * @summary - Getch all chatrooms.
+ * @param {string} id - Chatroom ID.
+ */
+export const getChatroom = id => {
+    return dispatch => {
+        dispatch(toggleLoadingChatroom(true))
+
+        axios.get(`${ process.env.REACT_APP_API }chatrooms/${id}`, {
+            headers: { "Authorization": `Bearer ${ localStorage.getItem("token") }` }
+        }).then(response => {
+            console.log(response)
+            dispatch({ type: "SET_CHATROOM", payload: response.data })
+        }).catch(error => {
+            console.log(error.response)
+        }).finally(() => {
+            dispatch(toggleLoadingChatroom(false))
         })
     }
 }

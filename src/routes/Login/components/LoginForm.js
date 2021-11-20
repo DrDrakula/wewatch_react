@@ -14,8 +14,8 @@ export default function LoginForm() {
     const dispatch = useDispatch()
 
     // STATE
-    const [username, setUsername] = useState("***REMOVED***")
-    const [password, setPassword] = useState("***REMOVED***")
+    const [username, setUsername] = useState(process.env.REACT_APP_USERNAME)
+    const [password, setPassword] = useState(process.env.REACT_APP_PASSWORD)
 
     const handleSubmit = (e) => {
         e.preventDefault()

@@ -34,7 +34,10 @@ function NavBar() {
                         <Navbar.Toggle aria-controls="basic-navbar-nav" />
                         <Navbar.Collapse id="basic-navbar-nav">
                             <Nav className="ml-auto">
-                                <Nav.Link as="span"><NavLink to="/">Chatrooms</NavLink></Nav.Link>
+                                <Nav.Link as={NavLink} to="/">Home</Nav.Link>
+                            </Nav>
+                            <Nav className="ml-auto">
+                                <Nav.Link as={NavLink} to="/chatrooms">Chatrooms</Nav.Link>
                             </Nav>
                             <Nav>
                                 <NavDropdown title={ user.username } id="basic-nav-dropdown">

@@ -1,10 +1,12 @@
 import React from "react";
-import NavBar from "../common/NavBar";
 import { Route, Routes } from "react-router-dom";
+import {Container} from "react-bootstrap";
+import NavBar from "../common/NavBar";
 import Login from "./Login";
 import PrivateRoute from "../common/HOCs/PrivateRoute";
 import Chatrooms from "./Chatrooms";
-import {Container} from "react-bootstrap";
+import Home from "./Home";
+import Chatroom from "./Chatrooms/Chatroom";
 
 export default function RouteContainer() {
     return (
@@ -13,8 +15,9 @@ export default function RouteContainer() {
                 <NavBar />
                 <Routes>
                     <Route path="/login" element={ <Login /> } />
-                    <Route path="/" element={ <PrivateRoute component={Chatrooms} /> } />
-                    {/*<PrivateRoute title="Chatrooms" exact path="/" component={ Chatrooms } />*/}
+                    <Route exact path="/" element={ <PrivateRoute component={Home} /> } />
+                    <Route exact path="/chatrooms" element={ <PrivateRoute component={Chatrooms} /> } />
+                    <Route path="/chatrooms/:id" element={ <PrivateRoute component={Chatroom} /> } />
                 </Routes>
             </Container>
         </div>

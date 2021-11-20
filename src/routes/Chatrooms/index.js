@@ -3,6 +3,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {getChatrooms} from "./reducers/chatroomsReducer";
 import {useNavigate} from "react-router-dom";
 import { ReactComponent as Spinner } from '../../static/images/spinner.svg';
+import {NavLink} from "react-router-dom";
 
 
 export default function Chatrooms() {
@@ -26,10 +27,15 @@ export default function Chatrooms() {
             </h4>
 
             { fetchingChatrooms ?
-                <div><Spinner />></div>
+                <div><Spinner /></div>
                 :
                 <div className="chatroom-list">
-                    { chatrooms.map(chatroom => <div key={chatroom.id}>{ chatroom.name }</div>) }
+                    { chatrooms.map(chatroom => {
+                        return (
+                            <div key={chatroom.id}>
+                                <NavLink to={`${chatroom.id}`}>{chatroom.name}</NavLink>
+                            </div>)
+                    }) }
                 </div>
             }
         </div>
