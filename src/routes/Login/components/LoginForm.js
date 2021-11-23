@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
-import {Button, Form} from "react-bootstrap";
-import {useDispatch} from "react-redux";
+import {Alert, Button, Form} from "react-bootstrap";
+import {useDispatch, useSelector} from "react-redux";
 import {authenticate} from "../reducers/loginReducer";
 import {useLocation, useNavigate} from "react-router-dom";
 
@@ -12,6 +12,7 @@ export default function LoginForm() {
 
     // REDUX
     const dispatch = useDispatch()
+    const errorMessage = useSelector(state => state.loginReducer.errorMessage)
 
     // STATE
     const [username, setUsername] = useState("")
@@ -35,6 +36,7 @@ export default function LoginForm() {
                     <Form.Control type="password" placeholder="password" value={ password } onChange={ (e) => setPassword(e.target.value) }  />
                 </Form.Group>
                 <br/>
+                { errorMessage ? <Alert variant="danger">{ errorMessage }</Alert> : null }
                 <Button className="login-btn" variant="primary" type="submit">
                     Log In
                 </Button>

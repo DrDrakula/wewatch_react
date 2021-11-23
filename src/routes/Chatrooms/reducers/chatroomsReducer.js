@@ -61,7 +61,6 @@ export const getChatrooms = () => {
         axios.get(`${ process.env.REACT_APP_API }chatrooms/`, {
             headers: { "Authorization": `Bearer ${ localStorage.getItem("token") }` }
         }).then(response => {
-            console.log(response)
             dispatch({ type: "SET_CHATROOMS", payload: response.data })
         }).catch(error => {
             console.log(error.response)
